@@ -8,6 +8,7 @@ function Remove-Snaps {
     }
     catch {
         Write-Output "Remove-Snaps failed on uspp-iaasauto01"
+        exit
     }
 
     # Connects to vCenters
