@@ -7,13 +7,13 @@ function Remove-Snaps {
         Import-Module VMware.VimAutomation.Core | Out-Null
     }
     catch {
-        Write-Output "Remove-Snaps failed on uspp-iaasauto01"
+        Write-Output "Remove-Snaps failed to run import PowerCLI module"
         exit
     }
 
     # Connects to vCenters
     try {
-        $settings = Get-Content -Path ..\Configs\settings.json | ConvertFrom-Json
+        $settings = Get-Content -Path "\%USERPROFILE%\Code\powershell\Configs\settings.json" | ConvertFrom-Json
         Connect-VIServer -Server $settings.vcServer -User $settings.vcUsername -Password $settings.vcPassword -WarningAction SilentlyContinue -Force -ErrorAction Stop -errorvariable ConVcenterError
     }
     catch {
