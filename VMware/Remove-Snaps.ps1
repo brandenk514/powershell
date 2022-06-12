@@ -8,11 +8,13 @@ function Remove-Snaps {
     }
     catch {
         Write-Output "Remove-Snaps failed on uspp-iaasauto01"
+        exit
     }
 
     # Connects to vCenters
     try {
-        Connect-VIServer -Server $settings.vcenterscore -Credential $settings.serviceCreds -WarningAction SilentlyContinue -Force -ErrorAction Stop -errorvariable ConVcenterError
+        $settings = Get-Content -Path ..\Configs\settings.json | ConvertFrom-Json
+        Connect-VIServer -Server $settings.vcServer -User $settings.vcUsername -Password $settings.vcPassword -WarningAction SilentlyContinue -Force -ErrorAction Stop -errorvariable ConVcenterError
     }
     catch {
         Write-Output "vCenter conection failed"
