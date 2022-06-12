@@ -1,4 +1,4 @@
-function Export-VM {
+function Export-VMOVA {
     param (
         [Parameter(Mandatory = $true)] $VMname # Name of VM to be exported
     )
@@ -13,7 +13,7 @@ function Export-VM {
 
     # Connects to vCenters
     try {
-        $settings = Get-Content -Path ..\Configs\settings.json | ConvertFrom-Json
+        $settings = Get-Content -Path "\%USERPROFILE%\Code\powershell\Configs\settings.json" | ConvertFrom-Json
         Connect-VIServer -Server $settings.vcServer -User $settings.vcUsername -Password $settings.vcPassword -WarningAction SilentlyContinue -Force -ErrorAction Stop -errorvariable ConVcenterError
     }
     catch {
@@ -25,11 +25,11 @@ function Export-VM {
         $selectedVM | Remove-Snapshot -Removechildren -Confirm:$false -ErrorAction Stop
         $selectedVM | Shutdown-VMGuest -Confirm:$false -ErrorAction Stop
         $selectedVM | Get-CDDrive | Set-CDDrive -NoMedia -Confirm:$false -ErrorAction Stop
-        $selectedVM | Export-VApp -Destination "%USERPROFILE%\Downloads" -Format Ova -Confirm:$false -ErrorAction Stop
+        Export-VM -VM $selectedVM -Destination "\%USERPROFILE%\Downloads" -Format Ova -Confirm:$false -ErrorAction Stop
     }
     catch {
-        Write-Output "Error failed"
+        Write-Output "Export failed."
+        Write-Output $error
         exit
     }
-    
 }
