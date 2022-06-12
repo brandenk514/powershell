@@ -7,7 +7,7 @@ function Export-VMOVA {
         Import-Module VMware.VimAutomation.Core | Out-Null
     }
     catch {
-        Write-Output "Remove-Snaps failed on uspp-iaasauto01"
+        Write-Output "Export-VMOVA failed to import PowerCLI module"
         exit
     }
 
